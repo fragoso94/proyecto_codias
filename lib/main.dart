@@ -1,8 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:splashscreen/splashscreen.dart';
 import 'Pages/Calculo.dart';
 import 'Pages/Home.dart';
 
-void main() {
+void main(){
+  runApp(new MaterialApp(
+    home: new App(),
+  ));
+}
+
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => new _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  Widget build(BuildContext context) {
+    return new SplashScreen(
+        seconds: 4,
+        navigateAfterSeconds: new AfterSplash(),
+        title: Text('Bienvenido a Codias Digital',
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0
+          ),),
+        image: Image.asset("images/logo.jpg"),
+        //Image.network('https://i.imgur.com/TyCSG9A.png'),
+        backgroundColor: Colors.red,
+        styleTextUnderTheLoader: new TextStyle(color: Colors.blue),
+        photoSize: 150.0,
+        //onClick: ()=>print("Flutter Egypt"),
+        loaderColor: Colors.white
+    );
+  }
+}
+
+class AfterSplash extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.red,
+            bottom: TabBar(
+              tabs: [
+                Tab(icon: Icon(Icons.home), text: "Inicio"),
+                Tab(icon: Icon(Icons.texture), text: "Calculo"),
+              ],
+            ),
+            title: Text('CODIAS DIGITAL'),
+          ),
+          body: TabBarView(
+            children: [
+              Home(),
+              //empieza el egundo tap bar
+              Calculo(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/*void main() {
   runApp(App());
 }
 class App extends StatelessWidget {
@@ -48,4 +113,4 @@ void changeViews(item){
     case 1: Calculo();
     break;
   }
-}
+}*/

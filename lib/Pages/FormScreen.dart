@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class FormScreen extends StatefulWidget{
   _FormScreen createState() => _FormScreen();
@@ -10,12 +11,12 @@ class _FormScreen extends State<FormScreen>{
   TextEditingController volumenTotalCtrl = TextEditingController();
   TextEditingController valorAundamientoCtrl = TextEditingController();
   TextEditingController  valorDosificadoCtrl = TextEditingController();
-
+  String valor = "";
   //funcion para guardar desde el boton
   void onSubmitForm(){
     //foto: basename(fileImage.path),
-    var txt = volumenTotalCtrl.toString();
-    print(txt);
+    print("asdasdajsldjajsjdaksjdla");
+    print(volumenTotalCtrl.text);
   }
 
   @override
@@ -36,6 +37,7 @@ class _FormScreen extends State<FormScreen>{
                   TextFormField(
                     controller: volumenTotalCtrl,
                     decoration: InputDecoration(labelText: "Insertar el Volumen Total",),
+                    keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'El campo volumen tota es requerido.';
@@ -46,9 +48,17 @@ class _FormScreen extends State<FormScreen>{
                   TextFormField(
                     controller: valorAundamientoCtrl,
                     decoration: InputDecoration(
-                      //prefixIcon: Icon(Icons.format_list_bulleted),
+                      prefixIcon: IconButton(
+                        icon: Icon(Icons.volume_up),
+                        tooltip: 'Información',
+                        onPressed: () {
+                          alertMsg(context, "Información.");
+                        },
+                      ),
                       labelText: "Insertar Valor Abundamiento",
+                        //border: OutlineInputBorder()
                     ),
+                    keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'El campo Valor Abundamiento es requerido.';
@@ -59,6 +69,7 @@ class _FormScreen extends State<FormScreen>{
                   TextFormField(
                     controller: valorDosificadoCtrl,
                     decoration: InputDecoration(labelText: "Insertar Valor Dosificación",),
+                    keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'El campo Valor Dosificación es requerido.';
@@ -88,22 +99,48 @@ class _FormScreen extends State<FormScreen>{
                           ),
                         ],),
                       onPressed: (){
-                        if (_formKey.currentState.validate()) {
+                        if(_formKey.currentState.validate()){
                           onSubmitForm();
-                          // Si el formulario es válido, queremos mostrar un Snackbar
-                          Scaffold.of(context)
-                              .showSnackBar(SnackBar(content: Text('Guardando..')));
+                          //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Guardado'),));
+                          msgToast("Calculando.");
+                        }else{
+                          msgToast("Faltan datos para procesar la petición.");
+                          //alertMsg(context, "hello");
                         }
                       },
                     ),
                   ),
                   SizedBox(height: 10.0,),
-                  Text("El resultado es:"),
-                  Text("El equivalente es:"),
+                    Text("El resultado es:"),
+                    Text("El equivalente es:")
                 ],
-              )
+              ),
           )
+
       ),
     );
   }
+}
+
+msgToast(mensaje){
+  return Fluttertoast.showToast(
+      msg: mensaje,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 14.0
+  );
+}
+
+alertMsg(context, mensaje){
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        content: Text(mensaje),
+      );
+    },
+  );
 }
