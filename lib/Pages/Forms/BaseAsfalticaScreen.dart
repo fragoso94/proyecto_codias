@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../Logic/Operaciones.dart';
+import '../../Logic/Operaciones.dart';
 
 class BaseAsfaltica extends StatefulWidget{
   _BaseAsfaltica createState() => _BaseAsfaltica();
@@ -160,7 +160,7 @@ msgToast(mensaje){
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIos: 1,
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.blue,
       textColor: Colors.white,
       fontSize: 14.0
   );
