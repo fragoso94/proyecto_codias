@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../Logic/Operaciones.dart';
 
-class FormScreen extends StatefulWidget{
-  _FormScreen createState() => _FormScreen();
+class BaseAsfaltica extends StatefulWidget{
+  _BaseAsfaltica createState() => _BaseAsfaltica();
 }
 
-class _FormScreen extends State<FormScreen>{
+class _BaseAsfaltica extends State<BaseAsfaltica>{
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController volumenTotalCtrl = TextEditingController();
-  TextEditingController valorAundamientoCtrl = TextEditingController();
+  TextEditingController valorAbundamientoCtrl = TextEditingController();
   TextEditingController  valorDosificadoCtrl = TextEditingController();
-  String valor = "";
+  String _total = "";
+  String _equivalente = "";
+  var valores = [];
+
   //funcion para guardar desde el boton
   void onSubmitForm(){
-    //foto: basename(fileImage.path),
-    print("asdasdajsldjajsjdaksjdla");
-    print(volumenTotalCtrl.text);
+      Operaciones valor = new Operaciones();
+      //conviertiendo de tipo text a entero;
+      double volumen = double.parse(volumenTotalCtrl.text);
+      double abundamiento = double.parse(valorAbundamientoCtrl.text);
+      double desificacion = double.parse(valorDosificadoCtrl.text);
+      valores = valor.CalcularTotal(volumen, abundamiento, desificacion);
+      print(valores[0]);
+      print(valores[1]);
+      setState((){
+          _total = valores[0].toString();
+          _equivalente = valores[1].toString();
+        }
+      );
   }
 
   @override
@@ -36,29 +50,39 @@ class _FormScreen extends State<FormScreen>{
                 children: <Widget>[
                   TextFormField(
                     controller: volumenTotalCtrl,
-                    decoration: InputDecoration(labelText: "Insertar el Volumen Total",),
-                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                        icon: Icon(Icons.info),
+                        tooltip: 'Volumen Total',
+                        onPressed: () {
+                          alertMsg(context, "Volumen Total.");
+                        },
+                      ),
+                      labelText: "Insertar el Volumen Total",),
+                    maxLength: 11,
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'El campo volumen tota es requerido.';
+                        return 'El campo volumen total es requerido.';
                       }
                       return null;
                     },
                   ),
                   TextFormField(
-                    controller: valorAundamientoCtrl,
+                    controller: valorAbundamientoCtrl,
                     decoration: InputDecoration(
                       prefixIcon: IconButton(
-                        icon: Icon(Icons.volume_up),
-                        tooltip: 'Información',
+                        icon: Icon(Icons.info),
+                        tooltip: 'Valor Abundamiento',
                         onPressed: () {
-                          alertMsg(context, "Información.");
+                          alertMsg(context, "Valor Abundamiento.");
                         },
                       ),
                       labelText: "Insertar Valor Abundamiento",
                         //border: OutlineInputBorder()
                     ),
-                    keyboardType: TextInputType.number,
+                    maxLength: 11,
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'El campo Valor Abundamiento es requerido.';
@@ -68,8 +92,17 @@ class _FormScreen extends State<FormScreen>{
                   ),
                   TextFormField(
                     controller: valorDosificadoCtrl,
-                    decoration: InputDecoration(labelText: "Insertar Valor Dosificación",),
-                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                        icon: Icon(Icons.info),
+                        tooltip: 'Valor Dosificación',
+                        onPressed: () {
+                          alertMsg(context, "Valor Dosificación.");
+                        },
+                      ),
+                      labelText: "Insertar Valor Dosificación",),
+                    maxLength: 11,
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'El campo Valor Dosificación es requerido.';
@@ -101,18 +134,17 @@ class _FormScreen extends State<FormScreen>{
                       onPressed: (){
                         if(_formKey.currentState.validate()){
                           onSubmitForm();
-                          //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Guardado'),));
-                          msgToast("Calculando.");
+                          //msgToast("Calculando.");
                         }else{
                           msgToast("Faltan datos para procesar la petición.");
-                          //alertMsg(context, "hello");
                         }
                       },
                     ),
                   ),
                   SizedBox(height: 10.0,),
-                    Text("El resultado es:"),
-                    Text("El equivalente es:")
+                    Text("El resultado es: $_total kg. ", style: TextStyle(fontSize: 20.0),),
+                    Text("El equivalente es: $_equivalente Ton.", style: TextStyle(fontSize: 20.0),),
+                    Text("De Base asfáltica", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
                 ],
               ),
           )

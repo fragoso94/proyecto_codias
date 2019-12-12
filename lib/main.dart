@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
-import 'Pages/Calculo.dart';
-import 'Pages/Home.dart';
+import 'Pages/CalculoScreen.dart';
+import 'Pages/HomeScreen.dart';
+import 'Pages/CotizacionScreen.dart';
 
 void main(){
   runApp(new MaterialApp(
@@ -42,7 +43,7 @@ class AfterSplash extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.red,
@@ -50,6 +51,7 @@ class AfterSplash extends StatelessWidget {
               tabs: [
                 Tab(icon: Icon(Icons.home), text: "Inicio"),
                 Tab(icon: Icon(Icons.texture), text: "Calculo"),
+                Tab(icon: Icon(Icons.content_paste), text: "Cotizador"),
               ],
             ),
             title: Text('CODIAS DIGITAL'),
@@ -57,8 +59,8 @@ class AfterSplash extends StatelessWidget {
           body: TabBarView(
             children: [
               Home(),
-              //empieza el egundo tap bar
               Calculo(),
+              CotizacionScreen(),
             ],
           ),
         ),
