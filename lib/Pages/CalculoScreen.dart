@@ -21,7 +21,9 @@ class Calculo extends StatelessWidget {
                 child: RaisedButton(
                   child: Text('BASE ASFÁLTICA', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.white),),
                   color: Colors.red,
-                  onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => BaseAsfaltica()),)
+                  onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => BaseAsfaltica(
+                    data: "este es el dato de la pagina 1",
+                  )),)
                 ),
               ),
               ButtonTheme(

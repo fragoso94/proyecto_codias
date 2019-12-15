@@ -3,7 +3,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../Logic/Operaciones.dart';
 
 class BaseAsfaltica extends StatefulWidget{
+  final String data;
+  BaseAsfaltica({Key key, this.data}): super(key: key);
+
   _BaseAsfaltica createState() => _BaseAsfaltica();
+
 }
 
 class _BaseAsfaltica extends State<BaseAsfaltica>{
@@ -145,6 +149,7 @@ class _BaseAsfaltica extends State<BaseAsfaltica>{
                     Text("El resultado es: $_total kg. ", style: TextStyle(fontSize: 20.0),),
                     Text("El equivalente es: $_equivalente Ton.", style: TextStyle(fontSize: 20.0),),
                     Text("De Base asfáltica", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
+                    Text("${widget.data}"),
                 ],
               ),
           )
@@ -160,7 +165,7 @@ msgToast(mensaje){
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIos: 1,
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.lightBlueAccent,
       textColor: Colors.white,
       fontSize: 14.0
   );

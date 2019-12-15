@@ -6,16 +6,25 @@ import 'Pages/CotizacionScreen.dart';
 
 void main(){
   runApp(new MaterialApp(
-    home: new App(),
+    /*initialRoute: '/',
+      routes: {
+        // Cuando naveguemos hacia la ruta "/", crearemos el Widget FirstScreen
+        '/': (context) =>  Home(),
+        // Cuando naveguemos hacia la ruta "/second", crearemos el Widget SecondScreen
+        '/second': (context) => Calculo(),
+      },*/
+    home: AppCodias(),
   ));
 }
 
-class App extends StatefulWidget {
+class AppCodias extends StatefulWidget {
+  AppCodias({Key key}) : super(key: key);
+
   @override
-  _AppState createState() => new _AppState();
+  _AppCodias createState() => _AppCodias();
 }
 
-class _AppState extends State<App> {
+class _AppCodias extends State<AppCodias> {
   @override
   Widget build(BuildContext context) {
     return new SplashScreen(
@@ -38,81 +47,57 @@ class _AppState extends State<App> {
   }
 }
 
-class AfterSplash extends StatelessWidget {
+class AfterSplash extends StatefulWidget {
+  @override
+  _AfterSplash createState() => new _AfterSplash();
+}
+
+
+class _AfterSplash extends State<AfterSplash> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  final List<Widget> _widgetOptions = <Widget>[
+    Home(),
+    Calculo(),
+    CotizacionScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.red,
-            bottom: TabBar(
-              tabs: [
-                Tab(icon: Icon(Icons.home), text: "Inicio"),
-                Tab(icon: Icon(Icons.texture), text: "Calculo"),
-                Tab(icon: Icon(Icons.content_paste), text: "Cotizador"),
-              ],
-            ),
-            title: Text('CODIAS DIGITAL'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('CODIAS DIGITAL'),
+        backgroundColor: Colors.red,
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
           ),
-          body: TabBarView(
-            children: [
-              Home(),
-              Calculo(),
-              CotizacionScreen(),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.texture),
+            title: Text('Calculo'),
           ),
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.content_paste),
+            title: Text('Cotizador'),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.lightBlueAccent,
+        onTap: _onItemTapped,
       ),
     );
   }
 }
-
-/*void main() {
-  runApp(App());
-}
-class App extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.red,
-            bottom: TabBar(
-              tabs: [
-                Tab(icon: Icon(Icons.home), text: "Inicio"),
-                Tab(icon: Icon(Icons.texture), text: "Calculo"),
-              ],
-            ),
-            title: Text('CODIAS DIGITAL'),
-          ),
-          body: TabBarView(
-            children: [
-              Home(),
-              //empieza el egundo tap bar
-              Calculo(),
-            ],
-          ),
-          /*bottomNavigationBar: BottomNavigationBar(
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Inicio')),
-              BottomNavigationBarItem(icon: Icon(Icons.texture), title: Text('Calculo')),
-            ], onTap: (int i)=> changeViews(i)//debugPrint("Elemento $i"),
-          ),*/
-        ),
-      ),
-    );
-  }
-}
-
-void changeViews(item){
-  switch(item){
-    case 0: print("soy el inicio");
-        break;
-    case 1: Calculo();
-    break;
-  }
-}*/
